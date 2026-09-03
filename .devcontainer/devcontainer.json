@@ -1,0 +1,17 @@
+{
+  "name": "Topology Optimization Studio",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "pip install --user -r requirements.txt",
+  "forwardPorts": [8501],
+  "portsAttributes": {
+    "8501": {
+      "label": "Topology Optimization Studio",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python"]
+    }
+  }
+}

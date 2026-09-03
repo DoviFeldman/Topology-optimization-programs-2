@@ -1,0 +1,101 @@
+================================================================================
+NOTES ON TOPOLOGY OPTIMIZATION (TO) TOOLS FOR 3D PRINTING
+(Two notes, copied by Dovi, kept together in one file.)
+================================================================================
+
+
+--------------------------------------------------------------------------------
+NOTE 1 — Free / open-source topology optimization tools, ranked by ease of use
+--------------------------------------------------------------------------------
+
+Yes, there are several good open-source and free topology optimization (TO) tools
+suitable for 3D printing. These generate lightweight, organic-looking structures
+that are strong where needed and remove material elsewhere — perfect for additive
+manufacturing.
+
+Here are the best options, ranked roughly by ease of use for 3D printing workflows:
+
+1. PyTopo3D (Best for 3D Printing Workflow)
+   GitHub: jihoonkim888/PyTopo3D
+   Modern Python implementation of the classic SIMP method.
+   Key advantages for 3D printing:
+     - Direct STL import for your design domain and obstacles.
+     - Direct STL export of the optimized result (with smoothing options).
+     - Volume fraction control, parallel solvers, optional GPU acceleration (CuPy).
+   Easy to run via command line or Python script.
+   Ideal if you're comfortable with basic Python or following examples.
+
+2. OpenPISCO (Most Feature-Rich Open Source Option)
+   Website/Docs: openpisco.readthedocs.io
+   GitLab: gitlab.com/openpisco/openpisco
+   Modular open-source platform with GUI + command line + Python library.
+   Excellent additive manufacturing features:
+     - Overhang detection
+     - STL surface export
+     - Support for various meshes (structured, unstructured, body-fitted)
+   Supports linear elasticity, thermal, buckling, modal analysis, etc.
+   Install easily via conda/mamba.
+   Great if you want more advanced capabilities without commercial software.
+
+3. ToOptix + FreeCAD Addon (Best FreeCAD Integration)
+   Core: DMST1990/ToOptiX (and forks)
+   FreeCAD Addon: Foxelmanian/ToOptixFreeCADAddon
+   Open-source topology optimization that works directly inside FreeCAD
+   (very popular for 3D printing).
+   Supports structural + thermal (multiphysics).
+   You model in FreeCAD -> run optimization -> get results back in the same
+   environment.
+
+4. Z88 Arion (Easiest GUI Option)
+   Download: en.z88.de/download-z88arion
+   Free dedicated topology optimization software (freeware).
+   Has a popular tutorial workflow with FreeCAD:
+     - Model in FreeCAD
+     - Mesh in FreeCAD FEM workbench
+     - Optimize in Z88 Arion
+   Uses methods like Optimality Criteria (OC) and Soft Kill Option (SKO).
+   Not fully open-source (the Arion part is free binary), but very accessible.
+
+5. Other Notable Options
+   | Tool                       | Type          | Strengths                        | Best For        | Link              |
+   |----------------------------|---------------|----------------------------------|-----------------|-------------------|
+   | DTU TopOpt codes           | Educational   | Clean code, well-documented      | Learning        | topopt.mek.dtu.dk |
+   | FEMbyGEN (FreeCAD)         | FreeCAD addon | Parametric studies + some TO     | FreeCAD users   | FreeCAD addons    |
+   | CalculiX + custom scripts  | FEA solver    | Very powerful when scripted      | Advanced users  | calculix.de       |
+   | ToPy / TopOpt.jl           | Python/Julia  | Libraries for custom development | Programmers     | GitHub            |
+
+Quick Recommendations by Use Case
+  - Just want it to work with minimal hassle + 3D printing -> Start with PyTopo3D
+    (STL workflow) or Z88 Arion + FreeCAD.
+  - Want a GUI and more features -> OpenPISCO.
+  - Already use FreeCAD a lot -> Try the ToOptix FreeCAD addon or Z88 workflow.
+  - Want to learn how it works -> DTU TopOpt codes or PyTopo3D.
+
+
+--------------------------------------------------------------------------------
+NOTE 2 — 3D-printing tips + where each tool runs (Codespaces vs Mac)
+--------------------------------------------------------------------------------
+
+Tips for 3D Printing
+  - Most tools output a density field -> you threshold it (e.g., keep elements
+    above 0.5 density) and export as STL.
+  - Tools with direct STL export (PyTopo3D, OpenPISCO) save the most steps.
+  - Always validate the final design with FEA (most of these tools or
+    FreeCAD/CalculiX can do this).
+  - Add manufacturing constraints if available (overhang angle, minimum feature
+    size) to make parts more printable.
+
+GitHub Codespaces (Linux cloud):
+  - PyTopo3D: Easiest — pure Python, pip install, CLI or script, runs instantly
+    in terminal
+  - OpenPISCO: Very easy — conda install via devcontainer or terminal, GUI optional
+  - DTU TopOpt Python codes / ToPy: Extremely easy — just Python scripts
+  - Z88 Arion: Harder — GUI-focused, limited headless support
+  - ToOptix + FreeCAD addon: Difficult — needs FreeCAD GUI or complex headless setup
+
+Mac M5 (Apple Silicon):
+  - PyTopo3D: Easiest — native arm64 Python, pip install works perfectly
+  - OpenPISCO: Excellent — conda/mamba native support
+  - FreeCAD + ToOptix addon: Very easy — native Mac arm64 FreeCAD available
+  - DTU TopOpt / ToPy: Trivial — pure Python
+  - Z88 Arion: Good — has Unix/OS X support, runs natively
