@@ -10,4 +10,4 @@ if ! python -c "import streamlit" >/dev/null 2>&1; then
 fi
 
 echo "Starting Topology Optimization Studio → http://localhost:8501"
-exec streamlit run app.py --server.port "${PORT:-8501}" --server.address 0.0.0.0
+exec python -m streamlit run app.py --server.port "${PORT:-8501}" --server.address 0.0.0.0
