@@ -3,9 +3,13 @@
 
 NumPy/SciPy implementation of 3D density-based SIMP, following the element
 formulation of the DTU / Liu & Tovar "top3d" educational code (2014). It
-minimizes compliance for a clamped-and-loaded solid box (a 3D cantilever by
-default) and returns a 3D density field, which `stl_io.voxels_to_stl` can turn
-into a printable STL by thresholding.
+minimizes compliance for a clamped-and-loaded solid box and returns a 3D density
+field, which `stl_io.voxels_to_stl` can turn into a printable STL.
+
+You can optimize inside the full box, OR inside an arbitrary DESIGN DOMAIN given
+as a boolean voxel mask (e.g. voxelized from an uploaded STL). Elements outside
+the domain are held void (passive), so material is only ever placed inside your
+uploaded shape. Supports and the load are applied on selectable faces of the box.
 
 Depends only on NumPy and SciPy, so it runs anywhere.
 """
@@ -48,14 +52,60 @@ def _lk_H8(nu=0.3):
     return KE
 
 
-def optimize(nelx=32, nely=16, nelz=16, volfrac=0.3, penal=3.0, rmin=1.5,
-             max_iter=40, tol=0.01, callback=None):
-    """
-    Run 3D SIMP optimization on a box that is clamped on the x=0 face and loaded
-    downward along the far top edge (a 3D cantilever).
+# Node numbering matches top3d: node(iy, ix, iz), 1-indexed,
+#   n = 1 + iy + ix*(nely+1) + iz*(nely+1)*(nelx+1),
+# and node n's dofs (0-indexed) are 3*(n-1) + [0, 1, 2] = [x, y, z].
+_AXIS = {"x": 0, "y": 1, "z": 2}
 
-    Returns a density field of shape (nely, nelx, nelz) with values in [0, 1].
-    If `callback` is given it is called as callback(it, change, compliance, vol).
+
+def _face_nodes(face, nelx, nely, nelz):
+    """1-indexed node numbers on a named box face ('x-','x+','y-','y+','z-','z+')."""
+    ax = face[0]
+    hi = face[1] == "+"
+    if ax == "x":
+        ix = nelx if hi else 0
+        iy, iz = np.meshgrid(np.arange(nely + 1), np.arange(nelz + 1), indexing="ij")
+        ix = np.full(iy.shape, ix)
+    elif ax == "y":
+        iy = nely if hi else 0
+        ix, iz = np.meshgrid(np.arange(nelx + 1), np.arange(nelz + 1), indexing="ij")
+        iy = np.full(ix.shape, iy)
+    else:  # z
+        iz = nelz if hi else 0
+        iy, ix = np.meshgrid(np.arange(nely + 1), np.arange(nelx + 1), indexing="ij")
+        iz = np.full(iy.shape, iz)
+    n1 = 1 + iy + ix * (nely + 1) + iz * (nely + 1) * (nelx + 1)
+    return n1.flatten()
+
+
+def _bc(nelx, nely, nelz, fixed_face, load_face, load_dir):
+    """Return (fixed_dofs_0indexed, F) for the chosen support/load faces."""
+    ndof = 3 * (nelx + 1) * (nely + 1) * (nelz + 1)
+    fixed_nodes = _face_nodes(fixed_face, nelx, nely, nelz)
+    fixed = np.concatenate([3 * (fixed_nodes - 1) + a for a in (0, 1, 2)])
+
+    load_nodes = _face_nodes(load_face, nelx, nely, nelz)
+    axis = _AXIS[load_dir[-1]]
+    sign = -1.0 if load_dir[0] == "-" else 1.0
+    F = np.zeros(ndof)
+    F[3 * (load_nodes - 1) + axis] = sign
+    return np.unique(fixed), F
+
+
+def optimize(nelx=32, nely=16, nelz=16, volfrac=0.3, penal=3.0, rmin=1.5,
+             max_iter=40, tol=0.01, domain=None,
+             fixed_face="x-", load_face="x+", load_dir="-y", callback=None):
+    """
+    Run 3D SIMP optimization.
+
+    domain : optional boolean array of shape (nely, nelx, nelz). Where False, the
+             element is held void (material may only be placed where True). Use
+             this to optimize inside an uploaded, voxelized STL shape.
+    fixed_face / load_face : one of 'x-','x+','y-','y+','z-','z+'.
+    load_dir : e.g. '-y' (down), '+z', ... direction of the applied load.
+
+    Returns a density field of shape (nely, nelx, nelz) in [0, 1].
+    Callback signature: callback(it, change, compliance, volume).
     """
     Emin, Emax = 1e-9, 1.0
     nele = nelx * nely * nelz
@@ -74,19 +124,20 @@ def optimize(nelx=32, nely=16, nelz=16, volfrac=0.3, penal=3.0, rmin=1.5,
     iK = np.kron(edofMat, np.ones((24, 1))).flatten()
     jK = np.kron(edofMat, np.ones((1, 24))).flatten()
 
-    # Loads and supports (consistent with top3d's node/dof convention).
-    kl = np.arange(nelz + 1)
-    loadnid = kl * (nelx + 1) * (nely + 1) + nelx * (nely + 1) + (nely + 1)  # 1-indexed
-    loaddof = 3 * loadnid - 1                                                # y-dofs, 1-indexed
-    F = np.zeros(ndof)
-    F[loaddof - 1] = -1.0
-    jf, kf = np.meshgrid(np.arange(1, nely + 2), np.arange(1, nelz + 2))
-    fixednid = (kf - 1) * (nely + 1) * (nelx + 1) + jf                       # x=0 face, 1-indexed
-    fixeddof = np.concatenate([3 * fixednid.flatten(),
-                               3 * fixednid.flatten() - 1,
-                               3 * fixednid.flatten() - 2]) - 1              # 0-indexed
-    free = np.setdiff1d(np.arange(ndof), fixeddof)
+    fixed, F = _bc(nelx, nely, nelz, fixed_face, load_face, load_dir)
+    free = np.setdiff1d(np.arange(ndof), fixed)
     U = np.zeros(ndof)
+
+    # Passive (void) elements from the design-domain mask. FE element index is
+    # el = j + i*nely + k*nelx*nely  ->  matches domain[j, i, k] via order='F'.
+    if domain is not None:
+        passive_void = ~np.asarray(domain, dtype=bool).flatten(order="F")
+    else:
+        passive_void = np.zeros(nele, dtype=bool)
+    active = ~passive_void
+    n_active = int(active.sum())
+    if n_active == 0:
+        raise ValueError("design domain is empty — nothing to optimize")
 
     # Density filter (linear, radius rmin) over the 3D element grid.
     iH, jH, sH = [], [], []
@@ -98,19 +149,17 @@ def optimize(nelx=32, nely=16, nelz=16, volfrac=0.3, penal=3.0, rmin=1.5,
                 for kk in range(max(k - rc, 0), min(k + rc + 1, nelz)):
                     for ii in range(max(i - rc, 0), min(i + rc + 1, nelx)):
                         for jj in range(max(j - rc, 0), min(j + rc + 1, nely)):
-                            e2 = kk * nelx * nely + ii * nely + jj
                             fac = rmin - np.sqrt((i - ii) ** 2 + (j - jj) ** 2 + (k - kk) ** 2)
                             if fac > 0:
+                                e2 = kk * nelx * nely + ii * nely + jj
                                 iH.append(e1)
                                 jH.append(e2)
                                 sH.append(fac)
     H = coo_matrix((sH, (iH, jH)), shape=(nele, nele)).tocsc()
     Hs = np.asarray(H.sum(1)).flatten()
 
-    # Element ordering used by the filter above is (z, x, y) column-ish; build a
-    # matching index so we can move between the FE element order and this order.
-    # FE element el = j + i*nely + k*nelx*nely  -> same as e1 above, so they match.
-    x = volfrac * np.ones(nele)
+    x = np.zeros(nele)
+    x[active] = volfrac
     xPhys = x.copy()
     change = 1.0
     compliance = 0.0
@@ -131,13 +180,16 @@ def optimize(nelx=32, nely=16, nelz=16, volfrac=0.3, penal=3.0, rmin=1.5,
         dv = np.asarray(H * (dv / Hs))
 
         l1, l2, move = 0.0, 1e9, 0.2
+        target_vol = volfrac * n_active
         xnew = x.copy()
         while (l2 - l1) / (l1 + l2 + 1e-30) > 1e-3:
             lmid = 0.5 * (l2 + l1)
             xnew = np.maximum(0.0, np.maximum(x - move, np.minimum(1.0,
                    np.minimum(x + move, x * np.sqrt(-dc / dv / lmid)))))
-            xPhys = np.asarray(H * xnew) / Hs   # density filter: (H@xnew)/Hs
-            if xPhys.sum() > volfrac * nele:
+            xnew[passive_void] = 0.0
+            xPhys = np.asarray(H * xnew) / Hs
+            xPhys[passive_void] = 0.0
+            if xPhys.sum() > target_vol:
                 l1 = lmid
             else:
                 l2 = lmid
@@ -146,7 +198,7 @@ def optimize(nelx=32, nely=16, nelz=16, volfrac=0.3, penal=3.0, rmin=1.5,
         x = xnew
 
         if callback is not None:
-            callback(it, change, compliance, float(xPhys.mean()))
+            callback(it, change, compliance, float(xPhys[active].mean()))
         if change < tol:
             break
 
@@ -157,5 +209,5 @@ def optimize(nelx=32, nely=16, nelz=16, volfrac=0.3, penal=3.0, rmin=1.5,
 if __name__ == "__main__":
     def cb(it, ch, c, v):
         print("it %2d  change %.3f  compliance %.2f  vol %.3f" % (it, ch, c, v))
-    rho = simp = optimize(nelx=24, nely=12, nelz=12, volfrac=0.3, max_iter=25, callback=cb)
+    rho = optimize(nelx=24, nely=12, nelz=12, volfrac=0.3, max_iter=25, callback=cb)
     print("density shape (nely,nelx,nelz):", rho.shape, "mean", round(float(rho.mean()), 3))

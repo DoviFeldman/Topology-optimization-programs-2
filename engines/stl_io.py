@@ -96,3 +96,33 @@ def voxels_to_stl(density, path, threshold=0.5, spacing=1.0):
     tris = voxel_mesh(density, threshold=threshold, spacing=spacing)
     write_stl(tris, path)
     return tris.shape[0]
+
+
+def stl_to_domain(file, resolution=48):
+    """
+    Voxelize an uploaded STL into a boolean design-domain mask for simp3d.
+
+    `file` may be a path or a file-like object (e.g. a Streamlit upload).
+    `resolution` is the number of voxels along the model's longest axis.
+
+    Returns (domain, meta) where domain has shape (nely, nelx, nelz) and meta
+    carries the derived grid dims and voxel pitch. Requires `trimesh`.
+    """
+    import trimesh
+
+    mesh = trimesh.load(file, file_type="stl")
+    if isinstance(mesh, trimesh.Scene):
+        mesh = mesh.dump(concatenate=True)
+
+    pitch = float(max(mesh.extents)) / max(int(resolution), 1)
+    vox = mesh.voxelized(pitch=pitch)
+    try:
+        vox = vox.fill()   # solidify the interior, not just the shell
+    except Exception:
+        pass
+    occ = np.asarray(vox.matrix, dtype=bool)     # (Nx, Ny, Nz)
+    domain = np.transpose(occ, (1, 0, 2))         # -> (nely, nelx, nelz)
+    nely, nelx, nelz = domain.shape
+    meta = {"nelx": nelx, "nely": nely, "nelz": nelz,
+            "pitch": pitch, "filled": int(occ.sum())}
+    return domain, meta
