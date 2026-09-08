@@ -55,9 +55,11 @@ if page.startswith("Programs"):
         "| 2 | **PyTopo3D** | ⛔ install & run separately | ✅ | ✅ |\n"
         "| 3 | **ToPy** | ⛔ install & run separately | ✅ | ✅ |\n"
         "| 4 | **OpenPISCO** | ⛔ install & run separately | ✅ | ✅ |\n"
-        "| 5 | **Z88 Arion** (GUI) | ⛔ desktop app | ❌ | ✅ |\n"
+        "| 5 | **Z88 Arion** (GUI) | ⛔ desktop app | ❌ | ❌ Windows only¹ |\n"
         "| 6 | **ToOptiX + FreeCAD** (GUI) | ⛔ desktop app | ❌ | ✅ |\n"
     )
+    st.caption("¹ Z88 Arion is **Windows-only** in practice — the macOS build does "
+               "not work (confirmed by testing).")
 
     st.markdown(
         "**In short:**\n"
@@ -65,8 +67,8 @@ if page.startswith("Programs"):
         "**“3D SIMP → STL”** page and hit Run (upload your own STL there too).\n"
         "- ✅ **Run in Codespaces (Linux):** 3D SIMP, PyTopo3D, ToPy, OpenPISCO — "
         "**4 of 6**.\n"
-        "- ✅ **Run on your Mac (Apple Silicon):** **all 6** — the two GUI apps "
-        "(Z88 Arion, ToOptiX/FreeCAD) only run on the desktop, not in a browser.\n\n"
+        "- ✅ **Run on your Mac (Apple Silicon):** **5 of 6** — everything except "
+        "Z88 Arion (Windows only). The GUI apps run on the desktop, not a browser.\n\n"
         "*(CalculiX is also documented as an FEA tool for **validating** a printed "
         "design — it's not a TO program itself.)*"
     )
@@ -188,7 +190,8 @@ else:
         st.code("conda install -c conda-forge openpisco   # or mamba", language="bash")
 
     with st.expander("Z88 Arion — free GUI topology optimization"):
-        st.markdown("Codespaces ❌ (GUI) · Mac ✅ — model/mesh in FreeCAD, optimize in Arion.")
+        st.markdown("Codespaces ❌ (GUI) · **Windows only** (the macOS build does not "
+                    "work in practice) — model/mesh in FreeCAD, optimize in Arion.")
 
     with st.expander("ToOptiX + FreeCAD addon"):
         st.markdown("Codespaces ❌ (GUI) · Mac ✅ — runs inside FreeCAD's GUI.")

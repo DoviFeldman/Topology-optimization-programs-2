@@ -5,6 +5,10 @@ lightweight, load-bearing, organic structures (great for 3D printing). Open it i
 the browser, optimize inside a box **or inside your own uploaded STL**, and
 download a printable STL.
 
+> 📘 **New here? Read [`TUTORIAL.md`](TUTORIAL.md)** — a picture-by-picture guide to
+> what every setting does (load direction, volume fraction, penalization, filter
+> radius) and which settings to pick for a part you want to optimize.
+
 ## How many programs, and where each runs
 
 **There are 6 topology-optimization programs.** **1** is built in and runs live
@@ -18,13 +22,16 @@ it works.
 | 2 | **PyTopo3D** | ⛔ install & run separately | ✅ | ✅ |
 | 3 | **ToPy** | ⛔ install & run separately | ✅ | ✅ |
 | 4 | **OpenPISCO** | ⛔ install & run separately | ✅ | ✅ |
-| 5 | **Z88 Arion** (GUI) | ⛔ desktop app | ❌ | ✅ |
+| 5 | **Z88 Arion** (GUI) | ⛔ desktop app | ❌ | ❌ Windows only¹ |
 | 6 | **ToOptiX + FreeCAD** (GUI) | ⛔ desktop app | ❌ | ✅ |
+
+¹ **Z88 Arion is Windows-only in practice** — the macOS build does not work
+(confirmed by testing). Use it on Windows.
 
 - ✅ **Works now, no setup:** the built-in **3D SIMP** (this app).
 - ✅ **Run in Codespaces (Linux):** 3D SIMP, PyTopo3D, ToPy, OpenPISCO — **4 of 6**.
-- ✅ **Run on your Mac (Apple Silicon):** **all 6** — the two GUI apps only run on
-  the desktop, not a browser.
+- ✅ **Run on your Mac (Apple Silicon):** **5 of 6** — everything except Z88 Arion
+  (Windows only). The GUI apps run on the desktop, not a browser.
 
 *(CalculiX is also documented as an FEA tool for **validating** a printed design —
 it isn't a TO program itself.)*
@@ -82,10 +89,11 @@ stl_io.voxels_to_stl(rho, "optimized.stl", threshold=0.5, spacing=meta["pitch"])
 - **ToPy** — `pip install topy` (`.tpd` problem files)
 - **OpenPISCO** — `conda install -c conda-forge openpisco`
 
-**Desktop / GUI — best on your Mac, not a browser:**
-- **Z88 Arion** — free GUI TO app (macOS/Unix builds).
-- **ToOptiX + FreeCAD addon** — runs inside FreeCAD's GUI.
-- **CalculiX** — FEA solver for *validating* a printed design.
+**Desktop / GUI:**
+- **Z88 Arion** — free GUI TO app. **Windows only** — the macOS build does not
+  work in practice.
+- **ToOptiX + FreeCAD addon** — runs inside FreeCAD's GUI (Mac ✅).
+- **CalculiX** — FEA solver for *validating* a printed design (Codespaces/Mac).
 
 The **"Other tools & how to run"** page in the app repeats these commands.
 
