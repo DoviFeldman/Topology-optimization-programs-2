@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+uploads/
+runs/_cfg/
+runs/_logs/
+runs/*/density.npy
+runs/*/*.stl
+external/PyTopo3D/
+external/ToPy/topy_orig_backup/

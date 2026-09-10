@@ -1,0 +1,17 @@
+numpy>=1.26
+scipy>=1.11
+pyamg>=5.2
+trimesh>=4.0
+scikit-image>=0.22
+matplotlib>=3.8
+streamlit>=1.30
+plotly>=5.18
+# PyTopo3D's runtime deps (minus pypardiso, which has no Apple-Silicon build)
+pandas
+networkx
+pillow
+tqdm
+psutil
+# ToPy's deps
+sympy
+pyvtk
