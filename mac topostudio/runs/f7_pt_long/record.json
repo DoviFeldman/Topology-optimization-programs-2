@@ -1,0 +1,84 @@
+{
+  "config": {
+    "id": "f7_pt_long",
+    "engine": "pytopo3d",
+    "stl": "input_tracker_holder.stl",
+    "resolution": 72,
+    "up_axis": "z",
+    "volfrac": 0.22,
+    "penal": 3.0,
+    "rmin": 4.5,
+    "max_iter": 120,
+    "tol": 0.002,
+    "move": 0.2,
+    "preset": "squash_plus_sway_both",
+    "projection": true,
+    "beta_max": 16.0,
+    "beta_double_every": 12,
+    "penal_continuation": true,
+    "seed_noise": 0.0,
+    "threshold": 0.5,
+    "smooth_iters": 10,
+    "keep_largest": true,
+    "note": "PyTopo3D given 120 iterations instead of 40 \u2014 the wave-3 runs stopped while still grey and shattered into dozens of pieces",
+    "keep": null,
+    "amg": true
+  },
+  "engine_name": "PyTopo3D 0.3.0 (upstream)",
+  "preset_blurb": "Axial squash plus sideways sway in both X and Y (3 load cases).  [load cases combined into one]",
+  "voxel": {
+    "pitch": 1.0833333333333333,
+    "shape": [
+      31,
+      23,
+      73
+    ],
+    "filled": 29094,
+    "extents": [
+      33.0,
+      24.0,
+      78.0
+    ],
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "volume_mm3": 36990.46180555555,
+    "mesh_volume_mm3": 28520.60666993602
+  },
+  "mesh": {
+    "raw_faces": 17156,
+    "components": 28,
+    "components_kept": 1,
+    "faces": 16220,
+    "verts": 8092,
+    "watertight": true,
+    "volume_mm3": 5840.23581429633
+  },
+  "elements": 29094,
+  "volume_fraction": 0.22000131733540773,
+  "solver": "pyamg SA-AMG + CG",
+  "solver_fallbacks": 0,
+  "part_volume_mm3": 5840.23581429633,
+  "original_volume_mm3": 28520.60666993602,
+  "mass_saving": 0.7952275040329837,
+  "stl": "runs/f7_pt_long/f7_pt_long.stl",
+  "preview": "runs/f7_pt_long/preview.png",
+  "wall_seconds": 2501.8183431625366,
+  "validation": {
+    "run": "f7_pt_long",
+    "compliance_optimized": 4068.876805125749,
+    "compliance_original_solid": 6.328438815190042,
+    "stiffness_ratio": 0.0015553281945567435,
+    "reference_preset": "squash_plus_sway_both",
+    "compliance_optimized_ref": 4068.876805125749,
+    "compliance_original_solid_ref": 6.328438815190042,
+    "stiffness_ratio_ref": 0.0015553281945567435,
+    "volume_optimized_mm3": 8234.935763888887,
+    "volume_solid_mm3": 36990.46180555555,
+    "volume_ratio": 0.2226232212827387,
+    "stiffness_per_mass": 0.006986370000375775,
+    "stiffness_per_mass_ref": 0.006986370000375775
+  }
+}

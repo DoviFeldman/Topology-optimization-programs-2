@@ -1,0 +1,77 @@
+{
+  "config": {
+    "id": "w3_pt_baseline",
+    "engine": "pytopo3d",
+    "stl": "input_tracker_holder.stl",
+    "resolution": 56,
+    "up_axis": "z",
+    "volfrac": 0.3,
+    "penal": 3.0,
+    "rmin": 2.2,
+    "max_iter": 40,
+    "tol": 0.01,
+    "move": 0.2,
+    "preset": "squash_plus_sway_both",
+    "projection": true,
+    "beta_max": 16.0,
+    "beta_double_every": 12,
+    "penal_continuation": true,
+    "seed_noise": 0.0,
+    "threshold": 0.5,
+    "smooth_iters": 8,
+    "keep_largest": true,
+    "note": "same settings as the wave-2 SIMP baseline, for a like-for-like comparison",
+    "keep": null,
+    "amg": true
+  },
+  "engine_name": "PyTopo3D 0.3.0 (upstream)",
+  "preset_blurb": "Axial squash plus sideways sway in both X and Y (3 load cases).  [load cases combined into one]",
+  "voxel": {
+    "pitch": 1.3928571428571428,
+    "shape": [
+      25,
+      18,
+      57
+    ],
+    "filled": 13866,
+    "extents": [
+      33.0,
+      24.0,
+      78.0
+    ],
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "volume_mm3": 37468.89823250729,
+    "mesh_volume_mm3": 28520.60666993602
+  },
+  "mesh": {
+    "raw_faces": 14234,
+    "components": 66,
+    "components_kept": 1,
+    "faces": 13138,
+    "verts": 6507,
+    "watertight": true,
+    "volume_mm3": 8622.948134044682
+  },
+  "elements": 13866,
+  "volume_fraction": 0.29999991690525496,
+  "solver": "pyamg SA-AMG + CG",
+  "solver_fallbacks": 0,
+  "part_volume_mm3": 8622.948134044682,
+  "original_volume_mm3": 28520.60666993602,
+  "mass_saving": 0.6976590212881322,
+  "stl": "runs/w3_pt_baseline/w3_pt_baseline.stl",
+  "preview": "runs/w3_pt_baseline/preview.png",
+  "wall_seconds": 417.8648729324341,
+  "validation": {
+    "run": "w3_pt_baseline",
+    "unloadable": true,
+    "reason": "the exported part gives a singular FE system (compliance -4.113e+15) \u2014 it is a disconnected fragment that is not both loaded and supported",
+    "volume_optimized_mm3": 11624.9242893586,
+    "volume_solid_mm3": 37468.89823250729,
+    "volume_ratio": 0.3102553007356123
+  }
+}

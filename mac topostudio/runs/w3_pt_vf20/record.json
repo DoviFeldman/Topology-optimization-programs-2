@@ -1,0 +1,77 @@
+{
+  "config": {
+    "id": "w3_pt_vf20",
+    "engine": "pytopo3d",
+    "stl": "input_tracker_holder.stl",
+    "resolution": 56,
+    "up_axis": "z",
+    "volfrac": 0.2,
+    "penal": 3.0,
+    "rmin": 3.5,
+    "max_iter": 40,
+    "tol": 0.01,
+    "move": 0.2,
+    "preset": "squash_plus_sway_both",
+    "projection": true,
+    "beta_max": 16.0,
+    "beta_double_every": 12,
+    "penal_continuation": true,
+    "seed_noise": 0.0,
+    "threshold": 0.5,
+    "smooth_iters": 8,
+    "keep_largest": true,
+    "note": "the wave-2 recipe: low volume fraction + wide filter",
+    "keep": null,
+    "amg": true
+  },
+  "engine_name": "PyTopo3D 0.3.0 (upstream)",
+  "preset_blurb": "Axial squash plus sideways sway in both X and Y (3 load cases).  [load cases combined into one]",
+  "voxel": {
+    "pitch": 1.3928571428571428,
+    "shape": [
+      25,
+      18,
+      57
+    ],
+    "filled": 13866,
+    "extents": [
+      33.0,
+      24.0,
+      78.0
+    ],
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "volume_mm3": 37468.89823250729,
+    "mesh_volume_mm3": 28520.60666993602
+  },
+  "mesh": {
+    "raw_faces": 10704,
+    "components": 50,
+    "components_kept": 1,
+    "faces": 9936,
+    "verts": 4950,
+    "watertight": true,
+    "volume_mm3": 4525.554044245545
+  },
+  "elements": 13866,
+  "volume_fraction": 0.2000033846338725,
+  "solver": "pyamg SA-AMG + CG",
+  "solver_fallbacks": 0,
+  "part_volume_mm3": 4525.554044245545,
+  "original_volume_mm3": 28520.60666993602,
+  "mass_saving": 0.8413233597511095,
+  "stl": "runs/w3_pt_vf20/w3_pt_vf20.stl",
+  "preview": "runs/w3_pt_vf20/preview.png",
+  "wall_seconds": 411.1901321411133,
+  "validation": {
+    "run": "w3_pt_vf20",
+    "unloadable": true,
+    "reason": "the exported part gives a singular FE system (compliance -3.242e+14) \u2014 it is a disconnected fragment that is not both loaded and supported",
+    "volume_optimized_mm3": 7930.997858965014,
+    "volume_solid_mm3": 37468.89823250729,
+    "volume_ratio": 0.2116688302322227
+  }
+}

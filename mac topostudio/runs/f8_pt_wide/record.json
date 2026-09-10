@@ -1,0 +1,77 @@
+{
+  "config": {
+    "id": "f8_pt_wide",
+    "engine": "pytopo3d",
+    "stl": "input_tracker_holder.stl",
+    "resolution": 72,
+    "up_axis": "z",
+    "volfrac": 0.22,
+    "penal": 3.0,
+    "rmin": 6.5,
+    "max_iter": 120,
+    "tol": 0.002,
+    "move": 0.2,
+    "preset": "squash_plus_sway_both",
+    "projection": true,
+    "beta_max": 16.0,
+    "beta_double_every": 12,
+    "penal_continuation": true,
+    "seed_noise": 0.0,
+    "threshold": 0.5,
+    "smooth_iters": 12,
+    "keep_largest": true,
+    "note": "PyTopo3D, 120 iterations + a much wider filter to force connected members",
+    "keep": null,
+    "amg": true
+  },
+  "engine_name": "PyTopo3D 0.3.0 (upstream)",
+  "preset_blurb": "Axial squash plus sideways sway in both X and Y (3 load cases).  [load cases combined into one]",
+  "voxel": {
+    "pitch": 1.0833333333333333,
+    "shape": [
+      31,
+      23,
+      73
+    ],
+    "filled": 29094,
+    "extents": [
+      33.0,
+      24.0,
+      78.0
+    ],
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "volume_mm3": 36990.46180555555,
+    "mesh_volume_mm3": 28520.60666993602
+  },
+  "mesh": {
+    "raw_faces": 21624,
+    "components": 69,
+    "components_kept": 1,
+    "faces": 19648,
+    "verts": 9800,
+    "watertight": true,
+    "volume_mm3": 4236.77295599642
+  },
+  "elements": 29094,
+  "volume_fraction": 0.21999661824931616,
+  "solver": "pyamg SA-AMG + CG",
+  "solver_fallbacks": 0,
+  "part_volume_mm3": 4236.77295599642,
+  "original_volume_mm3": 28520.60666993602,
+  "mass_saving": 0.8514487084714624,
+  "stl": "runs/f8_pt_wide/f8_pt_wide.stl",
+  "preview": "runs/f8_pt_wide/preview.png",
+  "wall_seconds": 5620.377051115036,
+  "validation": {
+    "run": "f8_pt_wide",
+    "unloadable": true,
+    "reason": "load case 0 reaches no material \u2014 check its face/pattern against your geometry",
+    "volume_optimized_mm3": 7713.656828703702,
+    "volume_solid_mm3": 36990.46180555555,
+    "volume_ratio": 0.2085309685845879
+  }
+}
