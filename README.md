@@ -1,3 +1,18 @@
+
+Ok Github version sucked and took too long and wasnt strong enough, came out all pixelated and also bad.
+with no time for itteration.
+had Claude download all of the programs onto my computer and run a bunch of tests on all the programs,
+and itterations it ran like 5 waves in total, i think the cusumizable our one the one from this repo the
+3D SIMP was the best only casue it was custimizable, but it wasnt good either way, were gonna try more.
+but heres what im upto now so far. 
+
+so far this is completely useless but well try to get better, each iteration took like 45 minnutes full fans blasting but it was running like all 3 programs at the same time.
+
+## 🍎 Mac build (all three engines, much faster)
+See [`test 1 fail mac topostudio/`](mac-studio/) — the local Apple-Silicon version with PyTopo3D, ToPy, and the rewritten 3D
+SIMP engine, plus [the findings](mac-studio/FINDINGS.md) from optimizing the stick holder.
+
+
 # Topology Optimization Programs
 
 A small studio for **topology optimization (TO)** — the technique that grows
