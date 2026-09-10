@@ -1,0 +1,119 @@
+[
+ {
+  "id": "f1_hero",
+  "engine": "simp",
+  "preset": "feet_omni",
+  "resolution": 120,
+  "volfrac": 0.2,
+  "penal": 3.0,
+  "rmin": 4.0,
+  "max_iter": 70,
+  "projection": true,
+  "beta_max": 32.0,
+  "beta_double_every": 10,
+  "keep": [
+   {
+    "type": "box",
+    "z": [
+     0.0,
+     0.11
+    ]
+   },
+   {
+    "type": "box",
+    "z": [
+     0.91,
+     1.0
+    ]
+   }
+  ],
+  "smooth_iters": 10,
+  "note": "HERO: omni-directional load on corner feet, solid mounting base and top rim, low volume fraction, wide filter"
+ },
+ {
+  "id": "f2_lace",
+  "engine": "simp",
+  "preset": "squash_plus_sway_both",
+  "resolution": 120,
+  "volfrac": 0.16,
+  "penal": 3.0,
+  "rmin": 3.2,
+  "max_iter": 70,
+  "projection": true,
+  "beta_max": 32.0,
+  "beta_double_every": 10,
+  "keep": [
+   {
+    "type": "box",
+    "z": [
+     0.0,
+     0.11
+    ]
+   },
+   {
+    "type": "box",
+    "z": [
+     0.91,
+     1.0
+    ]
+   }
+  ],
+  "smooth_iters": 10,
+  "note": "finest/lightest: vf 0.16 with a narrower filter -> many thin members"
+ },
+ {
+  "id": "f3_chunky",
+  "engine": "simp",
+  "preset": "squash_plus_sway_both",
+  "resolution": 120,
+  "volfrac": 0.24,
+  "penal": 3.0,
+  "rmin": 6.0,
+  "max_iter": 70,
+  "projection": true,
+  "beta_max": 32.0,
+  "beta_double_every": 10,
+  "keep": [
+   {
+    "type": "box",
+    "z": [
+     0.0,
+     0.11
+    ]
+   },
+   {
+    "type": "box",
+    "z": [
+     0.91,
+     1.0
+    ]
+   }
+  ],
+  "smooth_iters": 12,
+  "note": "chunky organic: wide filter forces few, thick, sculpted members"
+ },
+ {
+  "id": "f4_feet",
+  "engine": "simp",
+  "preset": "feet_omni_wide",
+  "resolution": 110,
+  "volfrac": 0.2,
+  "penal": 3.0,
+  "rmin": 4.0,
+  "max_iter": 70,
+  "projection": true,
+  "beta_max": 32.0,
+  "beta_double_every": 10,
+  "keep": [
+   {
+    "type": "box",
+    "z": [
+     0.91,
+     1.0
+    ]
+   }
+  ],
+  "smooth_iters": 10,
+  "note": "top rim kept solid but the base is fully optimized -> it stands on grown feet"
+ }
+]

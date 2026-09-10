@@ -1,0 +1,110 @@
+[
+ {
+  "engine": "simp",
+  "resolution": 64,
+  "volfrac": 0.3,
+  "penal": 3.0,
+  "rmin": 2.2,
+  "max_iter": 50,
+  "projection": true,
+  "verbose": true,
+  "id": "w1_axial_full_base",
+  "preset": "axial_full_base"
+ },
+ {
+  "engine": "simp",
+  "resolution": 64,
+  "volfrac": 0.3,
+  "penal": 3.0,
+  "rmin": 2.2,
+  "max_iter": 50,
+  "projection": true,
+  "verbose": true,
+  "id": "w1_axial_corner_feet",
+  "preset": "axial_corner_feet"
+ },
+ {
+  "engine": "simp",
+  "resolution": 64,
+  "volfrac": 0.3,
+  "penal": 3.0,
+  "rmin": 2.2,
+  "max_iter": 50,
+  "projection": true,
+  "verbose": true,
+  "id": "w1_axial_ring_base",
+  "preset": "axial_ring_base"
+ },
+ {
+  "engine": "simp",
+  "resolution": 64,
+  "volfrac": 0.3,
+  "penal": 3.0,
+  "rmin": 2.2,
+  "max_iter": 50,
+  "projection": true,
+  "verbose": true,
+  "id": "w1_pad_on_full_base",
+  "preset": "pad_on_full_base"
+ },
+ {
+  "engine": "simp",
+  "resolution": 64,
+  "volfrac": 0.3,
+  "penal": 3.0,
+  "rmin": 2.2,
+  "max_iter": 50,
+  "projection": true,
+  "verbose": true,
+  "id": "w1_pad_on_corner_feet",
+  "preset": "pad_on_corner_feet"
+ },
+ {
+  "engine": "simp",
+  "resolution": 64,
+  "volfrac": 0.3,
+  "penal": 3.0,
+  "rmin": 2.2,
+  "max_iter": 50,
+  "projection": true,
+  "verbose": true,
+  "id": "w1_squash_plus_sway",
+  "preset": "squash_plus_sway"
+ },
+ {
+  "engine": "simp",
+  "resolution": 64,
+  "volfrac": 0.3,
+  "penal": 3.0,
+  "rmin": 2.2,
+  "max_iter": 50,
+  "projection": true,
+  "verbose": true,
+  "id": "w1_squash_plus_sway_both",
+  "preset": "squash_plus_sway_both"
+ },
+ {
+  "engine": "simp",
+  "resolution": 64,
+  "volfrac": 0.3,
+  "penal": 3.0,
+  "rmin": 2.2,
+  "max_iter": 50,
+  "projection": true,
+  "verbose": true,
+  "id": "w1_squash_plus_twist",
+  "preset": "squash_plus_twist"
+ },
+ {
+  "engine": "simp",
+  "resolution": 64,
+  "volfrac": 0.3,
+  "penal": 3.0,
+  "rmin": 2.2,
+  "max_iter": 50,
+  "projection": true,
+  "verbose": true,
+  "id": "w1_eccentric_back_edge",
+  "preset": "eccentric_back_edge"
+ }
+]

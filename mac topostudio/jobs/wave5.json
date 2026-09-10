@@ -1,0 +1,123 @@
+[
+ {
+  "id": "f2_lace",
+  "engine": "simp",
+  "preset": "squash_plus_sway_both",
+  "resolution": 120,
+  "volfrac": 0.26,
+  "penal": 3.0,
+  "rmin": 3.2,
+  "max_iter": 70,
+  "projection": true,
+  "beta_max": 32.0,
+  "beta_double_every": 10,
+  "keep": [
+   {
+    "type": "box",
+    "z": [
+     0.0,
+     0.11
+    ]
+   },
+   {
+    "type": "box",
+    "z": [
+     0.91,
+     1.0
+    ]
+   }
+  ],
+  "smooth_iters": 10,
+  "note": "fine members: narrow filter with enough budget above the keep regions (keep=15%, so 26% total leaves ~11% for the truss)"
+ },
+ {
+  "id": "f5_topy_keep",
+  "engine": "topy",
+  "preset": "squash_plus_sway_both",
+  "resolution": 88,
+  "volfrac": 0.26,
+  "rmin": 3.5,
+  "penal": 3.0,
+  "eta": "0.4",
+  "q_max": 3.0,
+  "max_iter": 60,
+  "tol": 0.004,
+  "keep": [
+   {
+    "type": "box",
+    "z": [
+     0.0,
+     0.11
+    ]
+   },
+   {
+    "type": "box",
+    "z": [
+     0.91,
+     1.0
+    ]
+   }
+  ],
+  "smooth_iters": 10,
+  "note": "ToPy with the winning recipe: keep regions via its ACTV_ELEM, strong grey-scale filter"
+ },
+ {
+  "id": "f6_topy_chunky",
+  "engine": "topy",
+  "preset": "squash_plus_sway_both",
+  "resolution": 88,
+  "volfrac": 0.28,
+  "rmin": 5.5,
+  "penal": 3.0,
+  "eta": "0.4",
+  "q_max": 3.0,
+  "max_iter": 60,
+  "tol": 0.004,
+  "keep": [
+   {
+    "type": "box",
+    "z": [
+     0.0,
+     0.11
+    ]
+   },
+   {
+    "type": "box",
+    "z": [
+     0.91,
+     1.0
+    ]
+   }
+  ],
+  "smooth_iters": 12,
+  "note": "ToPy, wide filter -> few thick sculpted members"
+ },
+ {
+  "id": "f7_pt_long",
+  "engine": "pytopo3d",
+  "preset": "squash_plus_sway_both",
+  "resolution": 72,
+  "volfrac": 0.22,
+  "rmin": 4.5,
+  "penal": 3.0,
+  "max_iter": 120,
+  "tol": 0.002,
+  "amg": true,
+  "smooth_iters": 10,
+  "note": "PyTopo3D given 120 iterations instead of 40 \u2014 the wave-3 runs stopped while still grey and shattered into dozens of pieces"
+ },
+ {
+  "id": "f8_pt_wide",
+  "engine": "pytopo3d",
+  "preset": "squash_plus_sway_both",
+  "resolution": 72,
+  "volfrac": 0.22,
+  "rmin": 6.5,
+  "penal": 3.0,
+  "max_iter": 120,
+  "tol": 0.002,
+  "amg": true,
+  "smooth_iters": 12,
+  "note": "PyTopo3D, 120 iterations + a much wider filter to force connected members"
+ }
+]
