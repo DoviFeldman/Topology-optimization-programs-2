@@ -3,3 +3,5 @@ __pycache__/
 uploads/
 results/
 *.pyc
+!docs/*.png
+!samples/*.stl
