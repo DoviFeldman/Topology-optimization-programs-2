@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+uploads/
+results/
+*.pyc
+!docs/*.png
+!samples/*.stl
