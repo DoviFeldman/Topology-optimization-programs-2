@@ -1,3 +1,9 @@
+## Start here: `topostudio-v2/`
+
+The current, working version is in [`topostudio-v2/`](topostudio-v2/) — see its
+[README](topostudio-v2/README.md) for how to run it, the looks it makes, and what
+was wrong with the first attempt below.
+
 
 Ok Github version sucked and took too long and wasnt strong enough, came out all pixelated and also bad.
 with no time for itteration.
