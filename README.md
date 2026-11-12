@@ -1,3 +1,12 @@
+ok note from dovi: 
+topostudio v2 sucks, this sucks as well
+
+which is fine, i was just trying to see if fable 5.2 can do it but it cant and still gets it wrong, theres a lot more troubleshooting to do for now, like showing pictures of
+topology optimized stuff, and maybe stls as well. but that would take a lot of work and it probably still would get it wrong.
+maybe its just that the open source software that its using isnt good enough? so well have to rewrite our own from scratch.
+anyways currently the best way to get something topology optimized now is probably to ask claude to design it in blender that way. that works very well. 
+
+
 ## Start here: `topostudio-v2/`
 
 The current, working version is in [`topostudio-v2/`](topostudio-v2/) — see its
